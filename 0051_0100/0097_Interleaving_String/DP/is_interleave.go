@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package isinterleave
 
 func isInterleave(s1 string, s2 string, s3 string) bool {
 	l1 := len(s1)
@@ -38,12 +36,4 @@ func isInterleave(s1 string, s2 string, s3 string) bool {
 	}
 
 	return mat[l1][l2]
-}
-
-func main() {
-	fmt.Println(isInterleave(
-		"aa",
-		"bb",
-		"abab",
-	))
 }
