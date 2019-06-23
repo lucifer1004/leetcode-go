@@ -26,6 +26,30 @@ func deduplicate(arr []string) []string {
 	return ans
 }
 
+func doAdd(strs [][]string) [][]string {
+	k := len(strs) - 1
+	if k >= 1 {
+		strs[k-1] = append(strs[k-1], strs[k]...)
+		strs = strs[0:k]
+	}
+	return strs
+}
+
+func doMul(strs [][]string) [][]string {
+	k := len(strs) - 1
+	if k >= 1 {
+		tmp := []string{}
+		for _, a := range strs[k-1] {
+			for _, b := range strs[k] {
+				tmp = append(tmp, a+b)
+			}
+		}
+		strs[k-1] = tmp
+		strs = strs[0:k]
+	}
+	return strs
+}
+
 func braceExpansion(s string) []string {
 	ops := []string{}
 	strs := [][]string{}
@@ -59,17 +83,7 @@ func braceExpansion(s string) []string {
 			// Deal with remaining "*"s
 			j := len(ops) - 1
 			for ops[j] == "*" {
-				if len(strs) > 1 {
-					k := len(strs) - 1
-					tmp := []string{}
-					for _, a := range strs[k-1] {
-						for _, b := range strs[k] {
-							tmp = append(tmp, a+b)
-						}
-					}
-					strs[k-1] = tmp
-					strs = strs[0:k]
-				}
+				strs = doMul(strs)
 				j--
 			}
 			ops = ops[0 : j+1]
@@ -87,25 +101,11 @@ func braceExpansion(s string) []string {
 			j := len(ops) - 1
 			for ops[j] != "{" {
 				if ops[j] == "," {
-					k := len(strs) - 1
-					if k > 0 {
-						strs[k-1] = append(strs[k-1], strs[k]...)
-						strs = strs[0:k]
-					}
+					strs = doAdd(strs)
 				}
 
 				if ops[j] == "*" {
-					if len(strs) > 1 {
-						k := len(strs) - 1
-						tmp := []string{}
-						for _, a := range strs[k-1] {
-							for _, b := range strs[k] {
-								tmp = append(tmp, a+b)
-							}
-						}
-						strs[k-1] = tmp
-						strs = strs[0:k]
-					}
+					strs = doMul(strs)
 				}
 				j--
 			}
