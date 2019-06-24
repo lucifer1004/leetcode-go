@@ -25,3 +25,6 @@
 # IDEs
 .vscode
 .idea
+
+# Test files
+/test.go
