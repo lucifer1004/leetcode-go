@@ -34,8 +34,12 @@ func solve(curr, target int, p, r []int) []int {
 			t >>= 1
 			idx++
 		}
-		if check(curr, target, used, p, r) && sum(used) < min {
-			min = sum(used)
+		count := sum(used)
+		if count > min {
+			continue
+		}
+		if count < min && check(curr, target, used, p, r) {
+			min = count
 			newAns := []int{}
 			for j := range used {
 				if used[j] == 1 {
